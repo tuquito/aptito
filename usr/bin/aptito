@@ -1,0 +1,99 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+"""
+ Aptito 1.2
+ Copyright (C) 2010
+ Author: Mario Colque <mario@tuquito.org.ar>
+ Tuquito Team! - www.tuquito.org.ar
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; version 3 of the License.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+"""
+
+import os, commands, sys, gettext
+
+# i18n
+gettext.install('aptito', '/usr/share/tuquito/locale')
+
+class Aptito:
+	def __init__(self):
+		os.chdir('/var/cache/apt/archives/')
+		if sys.argv[1] == '-u':
+			packages = sys.argv[2:]
+			check = False
+		else:
+			packages = sys.argv[1:]
+			check = True
+		packagesInstall = ''
+		for package in packages:
+			package = package.strip()
+			self.setStatus(_('Verificando disponibilidad del paquete ') + package + '...')
+			exists = commands.getoutput('apt-cache search ' + package + ' | cut -d " " -f1 | grep -x -m1 "' + package + '"')
+			if exists != '':
+				self.setStatus(_('Paquete encontrado'))
+				if check:
+					installed = commands.getoutput('dpkg --get-selections | grep install | cut -f1 | egrep -x "' + package + '"')
+					if str(installed) == package:
+						self.setStatus(_('Paquete ya instalado, omitiendo ') + package + '...', 'ERROR')
+					else:
+						packagesInstall = packagesInstall + ' ' + package
+				else:
+					packagesInstall = packagesInstall + ' ' + package
+			else:
+				self.setStatus(_('No existe el paquete ') + package, 'ERROR')
+
+		packagesInstall = packagesInstall.strip()
+
+		if packagesInstall != '':
+			self.setStatus(_('Descargando archivos...'))
+			cmd = 'apt-get --print-uris -y install ' + packagesInstall + ' | egrep -o -e "(ht|f)tp://[^\']+"'
+			self.urls = commands.getoutput(cmd).split('\n')
+			for url in self.urls:
+				if url != '':
+					os.system('axel -n6 -a ' + url)
+
+			self.setStatus(_('Instalando paquetes...'))
+			cmd = 'apt-get -y --force-yes install ' + packagesInstall
+			install = os.system(cmd)
+
+			if install != 0:
+				self.setStatus(_('Error durante los procesos...'), 'ERROR')
+			else:
+				self.setStatus(_('Paquetes instalados correctamente'))
+		else:
+			self.setStatus(_('Finalizado. Sin descargas por realizar'))
+
+	def color(self, data, level=None):
+		codes = {\
+			None:       (0,   0),
+			'DEBUG':    (0,   2), # gris
+			'INFO':     (0,   0), # normal
+			'WARNING':  (1,  34), # azul
+			'ERROR':    (1,  31), # rojo
+			'OK':    	(1,  32), # verde
+			'CRITICAL': (1, 101), # negro, fondo rojo
+		}
+		return (chr(27)+'[%d;%dm') % codes[level] + data + (chr(27)+'[%d;%dm') % codes[None]
+
+	def setStatus (self, data, level='OK'):
+		if level == 'OK':
+			status = ':)'
+		if level == 'ERROR':
+			status = ':('
+		print '[' + self.color(status, level) + '] ' + data
+
+if __name__ == '__main__':
+	print 'Aptito 1.2\n'
+	if not os.environ['USER'] == 'root':
+		print _('ERROR: Se necesitan permisos de superusuario (root) para ejecutar APTITO.\nPara hacerlo, ejecute el comando: sudo aptito <paquete>')
+		exit(1)
+	Aptito()

@@ -1,0 +1,18 @@
+aptito (1.2-3) lucid; urgency=low
+
+  * Arreglos en markup de glade
+  * Arreglos en sintaxis de modo consola
+
+ -- Mario Colque <mario@tuquito.org.ar>  Wed, 28 Apr 2010 19:32:15 -0300
+
+aptito (1.2-2) lucid; urgency=low
+
+  * Mejoras en la interfaz gráfica
+
+ -- Mario Colque <mario@tuquito.org.ar>  Sun, 11 Apr 2010 13:45:28 -0300
+
+aptito (1.2-1) 4.0; urgency=low
+
+  * Version Inicial
+
+ -- Mario Colque <mario@tuquito.org.ar>  Tue, 23 Mar 2010 19:24:48 -0300
