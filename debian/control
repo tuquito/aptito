@@ -1,14 +1,13 @@
 Source: aptito
-Section: gnome
+Section: admin
 Priority: extra
 Maintainer: Mario Colque <mario@tuquito.org.ar>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.8.1
-Homepage: http://paquetes.tuquito.org.ar
 
 Package: aptito
 Architecture: all
 Depends: axel
-Description: Acelerador de descargas para APT
+Description: APT con asteroides
  Aptito es una aplicación que permite la instalación de aplicaciones de una manera acelerada, gracias a la implementación de axel para la descarga de paquetes.
  * Tuquito Team! - 2010

@@ -2,10 +2,6 @@
 Name=Aptito
 Comment=Acelerador de descargas para APT
 Comment[en]=Accelerator downloads for APT
-Comment[fr]=Acelerador de descargas para APT
-Comment[it]=Acelerador de descargas para APT
-Comment[pt]=Acelerador de descargas para APT
-Comment[pt_BR]=Acelerador de descargas para APT
 Type=Application
 Exec=aptito-gui
 Icon=/usr/lib/tuquito/aptito/aptito.png

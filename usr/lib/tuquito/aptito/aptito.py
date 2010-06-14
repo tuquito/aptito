@@ -51,7 +51,7 @@ class Install(threading.Thread):
 		if self.flag:
 			try:
 				gtk.gdk.threads_enter()
-				self.setStatus(_('Conectando...'))
+				self.setStatus(_('Connecting...'))
 				self.glade.get_object('main-window').window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
 				self.glade.get_object('cancel').connect('clicked', self.cancelDownload)
 				self.glade.get_object('packages').set_sensitive(False)
@@ -67,25 +67,25 @@ class Install(threading.Thread):
 
 				for package in packages:
 					package = package.strip()
-					self.setStatus(_('Verificando disponibilidad del paquete ') + package + '...')
+					self.setStatus(_('Checking availability of "') + package + '"...')
 					exists = commands.getoutput('apt-cache search ' + package + ' | cut -d " " -f1 | grep -x -m1 "' + package + '"')
 					if exists != '':
-						self.setStatus(_('Paquete encontrado'))
+						self.setStatus(_('Package found'))
 						if check:
 							installed = commands.getoutput('dpkg --get-selections | grep install | cut -f1 | egrep -x "' + package + '"')
 							if str(installed) == package:
-								self.setStatus(_('Paquete ya instalado, omitiendo ') + package + '...')
+								self.setStatus(_('Package already installed, skipping "') + package + '"...')
 							else:
 								packagesInstall = packagesInstall + ' ' + package
 						else:
 							packagesInstall = packagesInstall + ' ' + package
 					else:
-						self.setStatus(_('No existe el paquete ') + package)
+						self.setStatus(_('The package does not exist'))
 
 				packagesInstall = packagesInstall.strip()
 
 				if packagesInstall != '':
-					self.pbar.set_text(_('Conectando...'))
+					self.pbar.set_text(_('Connecting...'))
 					cmd = 'apt-get --print-uris -y install ' + packagesInstall + ' | egrep -o -e "(ht|f)tp://[^\']+"'
 					self.urls = commands.getoutput(cmd).split('\n')
 					cant = len(self.urls)
@@ -95,21 +95,21 @@ class Install(threading.Thread):
 					for url in self.urls:
 						text = str(porcent) + '% - ' + str(num) + '/' + str(cant)
 						self.pbar.set_text(text)
-						self.setStatus(_('Descargando archivos...'))
+						self.setStatus(_('Downloading files...'))
 						if url != '':
 							os.system('axel -n6 -a ' + url)
 						porcent = porcent + porc
 						num += 1
 
 					self.pbar.set_text('')
-					self.setStatus(_('Instalando paquetes...'))
+					self.setStatus(_('Installing packages...'))
 					cmd = 'apt-get -y --force-yes install ' + packagesInstall
 					install = os.system(cmd)
 
 					if install != 0:
 						gtk.gdk.threads_enter()
-						self.setStatus(_('Error durante los procesos...'))
-						self.glade.get_object('packages').set_text(_('Error: Algun paquete ocasiona conflictos durante su instalacion'))
+						self.setStatus(_('Error during process...'))
+						self.glade.get_object('packages').set_text(_('Error: Some packages causes conflicts during installation'))
 						self.glade.get_object('main-window').window.set_cursor(None)
 						self.glade.get_object('packages').set_sensitive(True)
 						self.glade.get_object('apply').set_sensitive(False)
@@ -118,7 +118,7 @@ class Install(threading.Thread):
 						gtk.gdk.threads_leave()
 					else:
 						gtk.gdk.threads_enter()
-						self.setStatus(_('Paquetes instalados correctamente'))
+						self.setStatus(_('The packages were successfully installed'))
 						self.glade.get_object('main-window').window.set_cursor(None)
 						self.glade.get_object('packages').set_sensitive(True)
 						self.glade.get_object('apply').set_sensitive(True)
@@ -127,7 +127,7 @@ class Install(threading.Thread):
 						gtk.gdk.threads_leave()
 				else:
 					gtk.gdk.threads_enter()
-					self.setStatus(_('Finalizado. Sin descargas por realizar'))
+					self.setStatus(_('Finished. No files for download'))
 					self.glade.get_object('main-window').window.set_cursor(None)
 					self.glade.get_object('packages').set_sensitive(True)
 					self.glade.get_object('apply').set_sensitive(True)
@@ -137,7 +137,7 @@ class Install(threading.Thread):
 
 			except Exception, detail:
 				gtk.gdk.threads_enter()
-				self.setStatus(_('Error durante los procesos...'))
+				self.setStatus(_('Error during process...'))
 				self.glade.get_object('packages').set_text(_('Error: ') + str(detail))
 				self.glade.get_object('main-window').window.set_cursor(None)
 				self.glade.get_object('packages').set_sensitive(True)
@@ -160,10 +160,10 @@ class Aptito:
 		self.window = self.builder.get_object('main-window')
 
 		self.packages_entry = self.builder.get_object('packages')
-		self.builder.get_object('title').set_label('<big><b>' + _('Bienvenido a Aptito') + '</b></big>')
-		self.builder.get_object('label-entry').set_label(_('Ingrese los nombres de los paquetes a instalar separados por <i>«espacio»</i>'))
-		self.builder.get_object('check').set_label(_('Omitir actualizaciones'))
-		self.builder.get_object('check').set_tooltip_text(_('Si habilita esta opcion, no se instalaran actualizaciones de aplicaciones que ya se encuentren instaladas. Por el contrario, si no la habilita, toda aplicacion que ya se encuentre instalada se actualizara en caso de encontrar una nueva version.'))
+		self.builder.get_object('title').set_label('<big><b>' + _('Welcome to Aptito') + '</b></big>')
+		self.builder.get_object('label-entry').set_label(_('Enter the names of the packages to install separated by <i>«space»</i>'))
+		self.builder.get_object('check').set_label(_('Skip updates'))
+		self.builder.get_object('check').set_tooltip_text(_('If you enable this option, no updates were installed applications that are already installed. On the contrary, if not enabled, any application that is already installed will be updated in case of finding a new version.'))
 		self.builder.connect_signals(self)
 		self.window.show()
 
@@ -187,7 +187,7 @@ class Aptito:
 			install2 = Install(self.builder, False)
 			install2.start()
 		else:
-			self.builder.get_object('status').set_label(_('Error: Debe ingresar al menos un paquete'))
+			self.builder.get_object('status').set_label(_('Error: You must enter at least one package'))
 			self.builder.get_object('status').set_sensitive(True)
 
 if __name__ == '__main__':
