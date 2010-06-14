@@ -1,2 +1,2 @@
 #!/bin/bash
-xgettext --language=Python --keyword=_ --output=usr/share/tuquito/locale/templates/aptito.pot usr/lib/tuquito/aptito/aptito.py usr/bin/aptito
+xgettext --language=Python --keyword=_ --output=po/aptito.pot usr/lib/tuquito/aptito/aptito.py usr/bin/aptito
