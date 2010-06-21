@@ -19,7 +19,7 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 """
 
-import os, commands, sys, gettext
+import os, commands, sys, gettext, apt
 
 # i18n
 gettext.install('aptito', '/usr/share/tuquito/locale')
@@ -27,44 +27,41 @@ gettext.install('aptito', '/usr/share/tuquito/locale')
 class Aptito:
 	def __init__(self):
 		os.chdir('/var/cache/apt/archives/')
+		cache = apt.Cache()
+		packagesList = []
 		if sys.argv[1] == '-u':
 			packages = sys.argv[2:]
 			check = False
 		else:
 			packages = sys.argv[1:]
 			check = True
-		packagesInstall = ''
 		for package in packages:
 			package = package.strip()
-			self.setStatus(_('Checking availability of "') + self.color(package, 'WARNING') + '"...')
-			exists = commands.getoutput('apt-cache search ' + package + ' | cut -d " " -f1 | grep -x -m1 "' + package + '"')
-			if exists != '':
-				self.setStatus(_('Package found'))
-				if check:
-					installed = commands.getoutput('dpkg --get-selections | grep install | cut -f1 | egrep -x "' + package + '"')
-					if str(installed) == package:
-						self.setStatus(_('Package already installed, skipping "') + self.color(package, 'WARNING') + '"...', 'WARNING')
+			self.setStatus(_('Checking availability of ') + self.color(package, 'WARNING') + '...')
+			try:
+				pkg = cache[package]
+				if pkg.candidate.summary != '':
+					self.setStatus(_('Package found'))
+					if check:
+						if pkg.isInstalled:
+							self.setStatus(_('Package already installed, skipping ') + self.color(package, 'WARNING') + '...', 'WARNING')
+						else:
+							packagesList.append(package)
 					else:
-						packagesInstall = packagesInstall + ' ' + package
-				else:
-					packagesInstall = packagesInstall + ' ' + package
-			else:
+						packagesList.append(package)
+			except Exception, detail:
 				self.setStatus(_('The package does not exist'), 'ERROR')
-
-		packagesInstall = packagesInstall.strip()
-
-		if packagesInstall != '':
+		if len(packagesList) > 0:
+			packagesList = ' '.join(packagesList)
 			self.setStatus(_('Downloading files...'))
-			cmd = 'apt-get --print-uris -y install ' + packagesInstall + ' | egrep -o -e "(ht|f)tp://[^\']+"'
-			self.urls = commands.getoutput(cmd).split('\n')
-			for url in self.urls:
-				if url != '':
-					os.system('axel -n6 -a ' + url)
-
+			cmd = 'apt-get --print-uris -y install %s | egrep -o -e "(ht|f)tp://[^\']+"' % packagesList
+			uris = commands.getoutput(cmd).split('\n')
+			for uri in uris:
+				if uri != '':
+					os.system('axel -an6 ' + uri)
 			self.setStatus(_('Installing packages...'))
-			cmd = 'apt-get -y --force-yes install ' + packagesInstall
+			cmd = 'apt-get -y --force-yes install ' + packagesList
 			install = os.system(cmd)
-
 			if install != 0:
 				self.setStatus(_('Error during process...'), 'ERROR')
 			else:

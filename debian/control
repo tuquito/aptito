@@ -7,7 +7,7 @@ Standards-Version: 3.8.1
 
 Package: aptito
 Architecture: all
-Depends: axel
+Depends: axel, python-apt
 Description: APT con asteroides
  Aptito es una aplicación que permite la instalación de aplicaciones de una manera acelerada, gracias a la implementación de axel para la descarga de paquetes.
  * Tuquito Team! - 2010

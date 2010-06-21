@@ -21,7 +21,7 @@
 
 import gtk, pygtk
 pygtk.require('2.0')
-import os, commands, threading, gettext
+import os, commands, threading, gettext, apt
 from time import sleep
 
 gtk.gdk.threads_init()
@@ -40,7 +40,7 @@ class Install(threading.Thread):
 		os.chdir('/var/cache/apt/archives/')
 
 	def setStatus(self, label):
-		self.glade.get_object('status').set_label('<i>' + label + '</i>')
+		self.glade.get_object('status').set_markup('<i>' + label + '</i>')
 		
 	def cancelDownload(self, widget, data=None):
 		os.system('killall -g axel')
@@ -50,6 +50,8 @@ class Install(threading.Thread):
 		global flag
 		if self.flag:
 			try:
+				cache = apt.Cache()
+				packagesList = []
 				gtk.gdk.threads_enter()
 				self.setStatus(_('Connecting...'))
 				self.glade.get_object('main-window').window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
@@ -63,77 +65,76 @@ class Install(threading.Thread):
 
 				check = self.glade.get_object('check').get_active()
 				packages = self.glade.get_object('packages').get_text().split(' ')
-				packagesInstall = ''
 
 				for package in packages:
 					package = package.strip()
-					self.setStatus(_('Checking availability of "') + package + '"...')
-					exists = commands.getoutput('apt-cache search ' + package + ' | cut -d " " -f1 | grep -x -m1 "' + package + '"')
-					if exists != '':
-						self.setStatus(_('Package found'))
-						if check:
-							installed = commands.getoutput('dpkg --get-selections | grep install | cut -f1 | egrep -x "' + package + '"')
-							if str(installed) == package:
-								self.setStatus(_('Package already installed, skipping "') + package + '"...')
+					self.setStatus(_('Checking availability of ') + package + '...')
+					try:
+						pkg = cache[package]
+						if pkg.candidate.summary != '':
+							self.setStatus(_('Package found'))
+							if check:
+								if pkg.isInstalled:
+									self.setStatus(_('Package already installed, skipping ') + package + '...')
+								else:
+									packagesList.append(package)
 							else:
-								packagesInstall = packagesInstall + ' ' + package
-						else:
-							packagesInstall = packagesInstall + ' ' + package
-					else:
+								packagesList.append(package)
+					except Exception, detail:
 						self.setStatus(_('The package does not exist'))
 
-				packagesInstall = packagesInstall.strip()
+				if len(packagesList) > 0:
+					packagesList = ' '.join(packagesList)
+					cmd = 'apt-get --print-uris -y install %s | egrep -o -e "(ht|f)tp://[^\']+"' % packagesList
+					uris = commands.getoutput(cmd).split('\n')
+					cant = len(uris)
+					if cant > 0:
+						self.pbar.set_text(_('Connecting...'))
+						porc = round(float(100) / cant, 1)
+						porcent = 0.1
+						num = 0
+						for uri in uris:
+							if uri != '':
+								text = str(porcent) + '% - ' + str(num) + '/' + str(cant)
+								self.pbar.set_text(text)
+								self.setStatus(_('Downloading files...'))
+								os.system('axel -an6 ' + uri)
+								porcent = porcent + porc
+								num += 1
 
-				if packagesInstall != '':
-					self.pbar.set_text(_('Connecting...'))
-					cmd = 'apt-get --print-uris -y install ' + packagesInstall + ' | egrep -o -e "(ht|f)tp://[^\']+"'
-					self.urls = commands.getoutput(cmd).split('\n')
-					cant = len(self.urls)
-					porc = round(float(100) / cant, 1)
-					porcent = 0.1
-					num = 0
-					for url in self.urls:
-						text = str(porcent) + '% - ' + str(num) + '/' + str(cant)
-						self.pbar.set_text(text)
-						self.setStatus(_('Downloading files...'))
-						if url != '':
-							os.system('axel -n6 -a ' + url)
-						porcent = porcent + porc
-						num += 1
+						self.pbar.set_text('')
+						self.setStatus(_('Installing packages...'))
+						cmd = 'apt-get -y --force-yes install ' + packagesList
+						install = os.system(cmd)
 
-					self.pbar.set_text('')
-					self.setStatus(_('Installing packages...'))
-					cmd = 'apt-get -y --force-yes install ' + packagesInstall
-					install = os.system(cmd)
-
-					if install != 0:
-						gtk.gdk.threads_enter()
-						self.setStatus(_('Error during process...'))
-						self.glade.get_object('packages').set_text(_('Error: Some packages causes conflicts during installation'))
-						self.glade.get_object('main-window').window.set_cursor(None)
-						self.glade.get_object('packages').set_sensitive(True)
-						self.glade.get_object('apply').set_sensitive(False)
-						self.glade.get_object('check').set_sensitive(False)
-						self.glade.get_object('status').set_sensitive(False)
-						gtk.gdk.threads_leave()
+						if install != 0:
+							gtk.gdk.threads_enter()
+							self.setStatus(_('Error during process...'))
+							self.glade.get_object('packages').set_text(_('Error: Some packages causes conflicts during installation'))
+							self.glade.get_object('main-window').window.set_cursor(None)
+							self.glade.get_object('packages').set_sensitive(True)
+							self.glade.get_object('apply').set_sensitive(False)
+							self.glade.get_object('check').set_sensitive(False)
+							self.glade.get_object('status').set_sensitive(False)
+							gtk.gdk.threads_leave()
+						else:
+							gtk.gdk.threads_enter()
+							self.setStatus(_('The packages were successfully installed'))
+							self.glade.get_object('main-window').window.set_cursor(None)
+							self.glade.get_object('packages').set_sensitive(True)
+							self.glade.get_object('apply').set_sensitive(True)
+							self.glade.get_object('cancel').set_sensitive(False)
+							self.glade.get_object('check').set_sensitive(True)
+							gtk.gdk.threads_leave()
 					else:
 						gtk.gdk.threads_enter()
-						self.setStatus(_('The packages were successfully installed'))
+						self.setStatus(_('Finished. No files for download'))
 						self.glade.get_object('main-window').window.set_cursor(None)
 						self.glade.get_object('packages').set_sensitive(True)
 						self.glade.get_object('apply').set_sensitive(True)
 						self.glade.get_object('cancel').set_sensitive(False)
 						self.glade.get_object('check').set_sensitive(True)
 						gtk.gdk.threads_leave()
-				else:
-					gtk.gdk.threads_enter()
-					self.setStatus(_('Finished. No files for download'))
-					self.glade.get_object('main-window').window.set_cursor(None)
-					self.glade.get_object('packages').set_sensitive(True)
-					self.glade.get_object('apply').set_sensitive(True)
-					self.glade.get_object('cancel').set_sensitive(False)
-					self.glade.get_object('check').set_sensitive(True)
-					gtk.gdk.threads_leave()
 
 			except Exception, detail:
 				gtk.gdk.threads_enter()

@@ -1,3 +1,10 @@
+aptito (1.2-7) lucid; urgency=low
+
+  * Integración con python-apt
+  * Traducciones en pt agregadas
+
+ -- Mario Colque <mario@tuquito.org.ar>  Mon, 21 Jun 2010 19:09:19 -0300
+
 aptito (1.2-6) lucid; urgency=low
 
   * correccion en directorios po
