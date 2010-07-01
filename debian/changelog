@@ -1,3 +1,9 @@
+aptito (1.2-8) lucid; urgency=low
+
+  * Revisión de idiomas
+
+ -- Mario Colque <mario@tuquito.org.ar>  Thu, 01 Jul 2010 16:52:51 -0300
+
 aptito (1.2-7.1) lucid; urgency=low
 
   * correccion en traducciones

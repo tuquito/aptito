@@ -162,7 +162,7 @@ class Aptito:
 
 		self.packages_entry = self.builder.get_object('packages')
 		self.builder.get_object('title').set_label('<big><b>' + _('Welcome to Aptito') + '</b></big>')
-		self.builder.get_object('label-entry').set_label(_('Enter the names of the packages to install separated by <i>«space»</i>'))
+		self.builder.get_object('label-entry').set_label('%s <i>«%s»</i>' % (_('Enter the names of the packages to install separated by'), _('space')))
 		self.builder.get_object('check').set_label(_('Skip updates'))
 		self.builder.get_object('check').set_tooltip_text(_('If you enable this option, no updates were installed applications that are already installed. On the contrary, if not enabled, any application that is already installed will be updated in case of finding a new version.'))
 		self.builder.connect_signals(self)

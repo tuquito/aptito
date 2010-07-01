@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=Aptito
-Comment=Acelerador de descargas para APT
-Comment[en]=Accelerator downloads for APT
+Comment=Download Accelerator for APT
+Comment[es]=Acelerador de descargas para APT
+Comment[pt]=Acelerador de downloads para APT
 Type=Application
 Exec=aptito-gui
 Icon=/usr/lib/tuquito/aptito/aptito.png
