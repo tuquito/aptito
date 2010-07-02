@@ -1,3 +1,10 @@
+aptito (1.2-9) lucid; urgency=low
+
+  * Corrección en bug de salto de paquetes instalados
+  * correción en idiomas
+
+ -- Mario Colque <mario@tuquito.org.ar>  Fri, 02 Jul 2010 18:38:11 -0300
+
 aptito (1.2-8) lucid; urgency=low
 
   * Revisión de idiomas

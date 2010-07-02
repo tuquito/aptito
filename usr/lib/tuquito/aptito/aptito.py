@@ -46,6 +46,16 @@ class Install(threading.Thread):
 		os.system('killall -g axel')
 		os.system('killall -g apt-get')
 
+	def noDownload(self):
+		gtk.gdk.threads_enter()
+		self.setStatus(_('Finished. No files for download'))
+		self.glade.get_object('main-window').window.set_cursor(None)
+		self.glade.get_object('packages').set_sensitive(True)
+		self.glade.get_object('apply').set_sensitive(True)
+		self.glade.get_object('cancel').set_sensitive(False)
+		self.glade.get_object('check').set_sensitive(True)
+		gtk.gdk.threads_leave()
+
 	def run(self):
 		global flag
 		if self.flag:
@@ -64,7 +74,7 @@ class Install(threading.Thread):
 				gtk.gdk.threads_leave()
 
 				check = self.glade.get_object('check').get_active()
-				packages = self.glade.get_object('packages').get_text().split(' ')
+				packages = self.glade.get_object('packages').get_text().strip().split(' ')
 
 				for package in packages:
 					package = package.strip()
@@ -101,12 +111,10 @@ class Install(threading.Thread):
 								os.system('axel -an6 ' + uri)
 								porcent = porcent + porc
 								num += 1
-
 						self.pbar.set_text('')
 						self.setStatus(_('Installing packages...'))
 						cmd = 'apt-get -y --force-yes install ' + packagesList
 						install = os.system(cmd)
-
 						if install != 0:
 							gtk.gdk.threads_enter()
 							self.setStatus(_('Error during process...'))
@@ -127,14 +135,9 @@ class Install(threading.Thread):
 							self.glade.get_object('check').set_sensitive(True)
 							gtk.gdk.threads_leave()
 					else:
-						gtk.gdk.threads_enter()
-						self.setStatus(_('Finished. No files for download'))
-						self.glade.get_object('main-window').window.set_cursor(None)
-						self.glade.get_object('packages').set_sensitive(True)
-						self.glade.get_object('apply').set_sensitive(True)
-						self.glade.get_object('cancel').set_sensitive(False)
-						self.glade.get_object('check').set_sensitive(True)
-						gtk.gdk.threads_leave()
+						self.noDownload()
+				else:
+					self.noDownload()
 
 			except Exception, detail:
 				gtk.gdk.threads_enter()
