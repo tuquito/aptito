@@ -1,3 +1,9 @@
+aptito (1.2-11) lucid; urgency=low
+
+  * revisión
+
+ -- Mario Colque <mario@tuquito.org.ar>  Fri, 02 Jul 2010 22:30:58 -0300
+
 aptito (1.2-9) lucid; urgency=low
 
   * Corrección en bug de salto de paquetes instalados
