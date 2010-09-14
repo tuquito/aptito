@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """
- Aptito 1.2
+ Aptito 1.3
  Copyright (C) 2010
  Author: Mario Colque <mario@tuquito.org.ar>
  Tuquito Team! - www.tuquito.org.ar
@@ -19,8 +19,7 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 """
 
-import gtk, pygtk
-pygtk.require('2.0')
+import gtk
 import os, commands, threading, gettext, apt
 from time import sleep
 

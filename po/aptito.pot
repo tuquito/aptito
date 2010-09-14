@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-02 18:34-0300\n"
+"POT-Creation-Date: 2010-09-13 23:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,79 +16,79 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: usr/lib/tuquito/aptito/aptito.py:51 usr/bin/aptito:70
+#: usr/lib/tuquito/aptito/aptito.py:50 usr/bin/aptito:70
 msgid "Finished. No files for download"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:66 usr/lib/tuquito/aptito/aptito.py:102
+#: usr/lib/tuquito/aptito/aptito.py:65 usr/lib/tuquito/aptito/aptito.py:101
 msgid "Connecting..."
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:81 usr/bin/aptito:40
+#: usr/lib/tuquito/aptito/aptito.py:80 usr/bin/aptito:40
 msgid "Checking availability of "
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:85 usr/bin/aptito:44
+#: usr/lib/tuquito/aptito/aptito.py:84 usr/bin/aptito:44
 msgid "Package found"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:88 usr/bin/aptito:47
+#: usr/lib/tuquito/aptito/aptito.py:87 usr/bin/aptito:47
 msgid "Package already installed, skipping "
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:94 usr/bin/aptito:53
+#: usr/lib/tuquito/aptito/aptito.py:93 usr/bin/aptito:53
 msgid "The package does not exist"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:110 usr/bin/aptito:56
+#: usr/lib/tuquito/aptito/aptito.py:109 usr/bin/aptito:56
 msgid "Downloading files..."
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:115 usr/bin/aptito:62
+#: usr/lib/tuquito/aptito/aptito.py:114 usr/bin/aptito:62
 msgid "Installing packages..."
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:120 usr/lib/tuquito/aptito/aptito.py:144
+#: usr/lib/tuquito/aptito/aptito.py:119 usr/lib/tuquito/aptito/aptito.py:143
 #: usr/bin/aptito:66
 msgid "Error during process..."
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:121
+#: usr/lib/tuquito/aptito/aptito.py:120
 msgid "Error: Some packages causes conflicts during installation"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:130 usr/bin/aptito:68
+#: usr/lib/tuquito/aptito/aptito.py:129 usr/bin/aptito:68
 msgid "The packages were successfully installed"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:145
+#: usr/lib/tuquito/aptito/aptito.py:144
 msgid "Error: "
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:167
+#: usr/lib/tuquito/aptito/aptito.py:166
 msgid "Welcome to Aptito"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:168
+#: usr/lib/tuquito/aptito/aptito.py:167
 msgid "Enter the names of the packages to install separated by"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:168
+#: usr/lib/tuquito/aptito/aptito.py:167
 msgid "space"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:169
+#: usr/lib/tuquito/aptito/aptito.py:168
 msgid "Skip updates"
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:170
+#: usr/lib/tuquito/aptito/aptito.py:169
 msgid ""
 "If you enable this option, no updates were installed applications that are "
 "already installed. On the contrary, if not enabled, any application that is "
 "already installed will be updated in case of finding a new version."
 msgstr ""
 
-#: usr/lib/tuquito/aptito/aptito.py:194
+#: usr/lib/tuquito/aptito/aptito.py:193
 msgid "Error: You must enter at least one package"
 msgstr ""
 

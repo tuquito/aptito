@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aptito 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-02 18:34-0300\n"
+"POT-Creation-Date: 2010-09-13 23:53-0300\n"
 "PO-Revision-Date: 2010-06-21 18:58-0300\n"
 "Last-Translator: Mario Colque <carlosfelipe@tuquito.org.ar>\n"
 "Language-Team: Portuguese\n"
@@ -16,72 +16,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: usr/lib/tuquito/aptito/aptito.py:51 usr/bin/aptito:70
+#: usr/lib/tuquito/aptito/aptito.py:50 usr/bin/aptito:70
 msgid "Finished. No files for download"
 msgstr "Finalizado. Não há arquivos para download"
 
-#: usr/lib/tuquito/aptito/aptito.py:66 usr/lib/tuquito/aptito/aptito.py:102
+#: usr/lib/tuquito/aptito/aptito.py:65 usr/lib/tuquito/aptito/aptito.py:101
 msgid "Connecting..."
 msgstr "Conectando..."
 
-#: usr/lib/tuquito/aptito/aptito.py:81 usr/bin/aptito:40
+#: usr/lib/tuquito/aptito/aptito.py:80 usr/bin/aptito:40
 msgid "Checking availability of "
 msgstr "Verificando disponibilidade de "
 
-#: usr/lib/tuquito/aptito/aptito.py:85 usr/bin/aptito:44
+#: usr/lib/tuquito/aptito/aptito.py:84 usr/bin/aptito:44
 msgid "Package found"
 msgstr "Pacote encontrado"
 
-#: usr/lib/tuquito/aptito/aptito.py:88 usr/bin/aptito:47
+#: usr/lib/tuquito/aptito/aptito.py:87 usr/bin/aptito:47
 msgid "Package already installed, skipping "
 msgstr "Pacote já instalado, omitindo "
 
-#: usr/lib/tuquito/aptito/aptito.py:94 usr/bin/aptito:53
+#: usr/lib/tuquito/aptito/aptito.py:93 usr/bin/aptito:53
 msgid "The package does not exist"
 msgstr "O pacote não existe"
 
-#: usr/lib/tuquito/aptito/aptito.py:110 usr/bin/aptito:56
+#: usr/lib/tuquito/aptito/aptito.py:109 usr/bin/aptito:56
 msgid "Downloading files..."
 msgstr "Download de arquivos..."
 
-#: usr/lib/tuquito/aptito/aptito.py:115 usr/bin/aptito:62
+#: usr/lib/tuquito/aptito/aptito.py:114 usr/bin/aptito:62
 msgid "Installing packages..."
 msgstr "Instalando pacotes..."
 
-#: usr/lib/tuquito/aptito/aptito.py:120 usr/lib/tuquito/aptito/aptito.py:144
+#: usr/lib/tuquito/aptito/aptito.py:119 usr/lib/tuquito/aptito/aptito.py:143
 #: usr/bin/aptito:66
 msgid "Error during process..."
 msgstr "Erro durante os processos..."
 
-#: usr/lib/tuquito/aptito/aptito.py:121
+#: usr/lib/tuquito/aptito/aptito.py:120
 msgid "Error: Some packages causes conflicts during installation"
 msgstr "Erro: Alguns pacotes estão causando conflitos durante a instalação"
 
-#: usr/lib/tuquito/aptito/aptito.py:130 usr/bin/aptito:68
+#: usr/lib/tuquito/aptito/aptito.py:129 usr/bin/aptito:68
 msgid "The packages were successfully installed"
 msgstr "Os pacotes foram instalados corretamente"
 
-#: usr/lib/tuquito/aptito/aptito.py:145
+#: usr/lib/tuquito/aptito/aptito.py:144
 msgid "Error: "
 msgstr "Erro: "
 
-#: usr/lib/tuquito/aptito/aptito.py:167
+#: usr/lib/tuquito/aptito/aptito.py:166
 msgid "Welcome to Aptito"
 msgstr "Bem-vindo(a) ao Aptito"
 
-#: usr/lib/tuquito/aptito/aptito.py:168
+#: usr/lib/tuquito/aptito/aptito.py:167
 msgid "Enter the names of the packages to install separated by"
 msgstr "Entre com o nome dos pacotes a instalar separados por"
 
-#: usr/lib/tuquito/aptito/aptito.py:168
+#: usr/lib/tuquito/aptito/aptito.py:167
 msgid "space"
 msgstr "espacio"
 
-#: usr/lib/tuquito/aptito/aptito.py:169
+#: usr/lib/tuquito/aptito/aptito.py:168
 msgid "Skip updates"
 msgstr "Omitindo atualizações"
 
-#: usr/lib/tuquito/aptito/aptito.py:170
+#: usr/lib/tuquito/aptito/aptito.py:169
 msgid ""
 "If you enable this option, no updates were installed applications that are "
 "already installed. On the contrary, if not enabled, any application that is "
@@ -92,7 +92,7 @@ msgstr ""
 "habilitar, todo aplicativo que já se encontra instalado se atualizará no "
 "caso de encontrar uma nova versão."
 
-#: usr/lib/tuquito/aptito/aptito.py:194
+#: usr/lib/tuquito/aptito/aptito.py:193
 msgid "Error: You must enter at least one package"
 msgstr "Erro: Você deve entrar com ao menos um pacote"
 
