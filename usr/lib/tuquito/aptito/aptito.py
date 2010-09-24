@@ -40,7 +40,7 @@ class Install(threading.Thread):
 
 	def setStatus(self, label):
 		self.glade.get_object('status').set_markup('<i>' + label + '</i>')
-		
+
 	def cancelDownload(self, widget, data=None):
 		os.system('killall -g axel')
 		os.system('killall -g apt-get')
@@ -83,7 +83,7 @@ class Install(threading.Thread):
 						if pkg.candidate.summary != '':
 							self.setStatus(_('Package found'))
 							if check:
-								if pkg.isInstalled:
+								if pkg.is_installed:
 									self.setStatus(_('Package already installed, skipping ') + package + '...')
 								else:
 									packagesList.append(package)

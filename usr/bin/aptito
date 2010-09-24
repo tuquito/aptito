@@ -43,7 +43,7 @@ class Aptito:
 				if pkg.candidate.summary != '':
 					self.setStatus(_('Package found'))
 					if check:
-						if pkg.isInstalled:
+						if pkg.is_installed:
 							self.setStatus(_('Package already installed, skipping ') + self.color(package, 'WARNING') + '...', 'WARNING')
 						else:
 							packagesList.append(package)
