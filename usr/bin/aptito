@@ -25,74 +25,74 @@ import os, commands, sys, gettext, apt
 gettext.install('aptito', '/usr/share/tuquito/locale')
 
 class Aptito:
-	def __init__(self):
-		os.chdir('/var/cache/apt/archives/')
-		cache = apt.Cache()
-		packagesList = []
-		if sys.argv[1] == '-u':
-			packages = sys.argv[2:]
-			check = False
-		else:
-			packages = sys.argv[1:]
-			check = True
-		for package in packages:
-			package = package.strip()
-			self.setStatus(_('Checking availability of ') + self.color(package, 'WARNING') + '...')
-			try:
-				pkg = cache[package]
-				if pkg.candidate.summary != '':
-					self.setStatus(_('Package found'))
-					if check:
-						if pkg.is_installed:
-							self.setStatus(_('Package already installed, skipping ') + self.color(package, 'WARNING') + '...', 'WARNING')
-						else:
-							packagesList.append(package)
-					else:
-						packagesList.append(package)
-			except Exception, detail:
-				self.setStatus(_('The package does not exist'), 'ERROR')
-		if len(packagesList) > 0:
-			packagesList = ' '.join(packagesList)
-			self.setStatus(_('Downloading files...'))
-			cmd = 'apt-get --print-uris -y install %s | egrep -o -e "(ht|f)tp://[^\']+"' % packagesList
-			uris = commands.getoutput(cmd).split('\n')
-			for uri in uris:
-				if uri != '':
-					os.system('axel -an6 ' + uri)
-			self.setStatus(_('Installing packages...'))
-			cmd = 'apt-get -y --force-yes install ' + packagesList
-			install = os.system(cmd)
-			if install != 0:
-				self.setStatus(_('Error during process...'), 'ERROR')
-			else:
-				self.setStatus(_('The packages were successfully installed'))
-		else:
-			self.setStatus(_('Finished. No files for download'))
+    def __init__(self):
+        os.chdir('/var/cache/apt/archives/')
+        cache = apt.Cache()
+        packagesList = []
+        if sys.argv[1] == '-u':
+            packages = sys.argv[2:]
+            check = False
+        else:
+            packages = sys.argv[1:]
+            check = True
+        for package in packages:
+            package = package.strip()
+            self.setStatus(_('Checking availability of ') + self.color(package, 'WARNING') + '...')
+            try:
+                pkg = cache[package]
+                if pkg.candidate.summary != '':
+                    self.setStatus(_('Package found'))
+                    if check:
+                        if pkg.is_installed:
+                            self.setStatus(_('Package already installed, skipping ') + self.color(package, 'WARNING') + '...', 'WARNING')
+                        else:
+                            packagesList.append(package)
+                    else:
+                        packagesList.append(package)
+            except Exception, detail:
+                self.setStatus(_('The package does not exist'), 'ERROR')
+        if len(packagesList) > 0:
+            packagesList = ' '.join(packagesList)
+            self.setStatus(_('Downloading files...'))
+            cmd = 'apt-get --print-uris -y install %s | egrep -o -e "(ht|f)tp://[^\']+"' % packagesList
+            uris = commands.getoutput(cmd).split('\n')
+            for uri in uris:
+                if uri != '':
+                    os.system('axel -a ' + uri)
+            self.setStatus(_('Installing packages...'))
+            cmd = 'apt-get -y --force-yes install ' + packagesList
+            install = os.system(cmd)
+            if install != 0:
+                self.setStatus(_('Error during process...'), 'ERROR')
+            else:
+                self.setStatus(_('The packages were successfully installed'))
+        else:
+            self.setStatus(_('Finished. No files for download'))
 
-	def color(self, data, level=None):
-		codes = {\
-			None:       (0,   0),
-			'DEBUG':    (0,   2), # gris
-			'INFO':     (0,   0), # normal
-			'WARNING':  (1,  33), # amarillo
-			'ERROR':    (1,  31), # rojo
-			'OK':       (1,  32), # verde
-			'CRITICAL': (1, 101), # negro, fondo rojo
-		}
-		return (chr(27)+'[%d;%dm') % codes[level] + data + (chr(27)+'[%d;%dm') % codes[None]
+    def color(self, data, level=None):
+        codes = {\
+            None:       (0,   0),
+            'DEBUG':    (0,   2), # gris
+            'INFO':     (0,   0), # normal
+            'WARNING':  (1,  33), # amarillo
+            'ERROR':    (1,  31), # rojo
+            'OK':       (1,  32), # verde
+            'CRITICAL': (1, 101), # negro, fondo rojo
+        }
+        return (chr(27)+'[%d;%dm') % codes[level] + data + (chr(27)+'[%d;%dm') % codes[None]
 
-	def setStatus (self, data, level='OK'):
-		if level == 'OK':
-			status = ':)'
-		if level == 'WARNING':
-			status = ':|'
-		if level == 'ERROR':
-			status = ':('
-		print '[' + self.color(status, level) + '] ' + data
+    def setStatus (self, data, level='OK'):
+        if level == 'OK':
+            status = ':)'
+        if level == 'WARNING':
+            status = ':|'
+        if level == 'ERROR':
+            status = ':('
+        print '[' + self.color(status, level) + '] ' + data
 
 if __name__ == '__main__':
-	print 'Aptito 1.2\n'
-	if not os.environ['USER'] == 'root':
-		print _('ERROR: You need root permissions to run APTITO.\nTo do this, run the command: sudo aptito <package>')
-		sys.exit(1)
-	Aptito()
+    print 'Aptito 1.3\n'
+    if not os.environ['USER'] == 'root':
+        print _('ERROR: You need root permissions to run APTITO.\nTo do this, run the command: sudo aptito <package>')
+        sys.exit(1)
+    Aptito()

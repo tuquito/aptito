@@ -75,7 +75,7 @@ msgstr "Entre com o nome dos pacotes a instalar separados por"
 
 #: usr/lib/tuquito/aptito/aptito.py:167
 msgid "space"
-msgstr "espacio"
+msgstr "espaço"
 
 #: usr/lib/tuquito/aptito/aptito.py:168
 msgid "Skip updates"
