@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 """
- Aptito 1.3
- Copyright (C) 2010
+ Aptito 1.4
+ Copyright (C) 2011
  Author: Mario Colque <mario@tuquito.org.ar>
  Tuquito Team! - www.tuquito.org.ar
 
@@ -71,12 +71,12 @@ class Aptito:
 
     def color(self, data, level=None):
         codes = {\
-            None:       (0,   0),
-            'DEBUG':    (0,   2), # gris
-            'INFO':     (0,   0), # normal
-            'WARNING':  (1,  33), # amarillo
-            'ERROR':    (1,  31), # rojo
-            'OK':       (1,  32), # verde
+            None:       (0, 0),
+            'DEBUG':    (0, 2), # gris
+            'INFO':     (0, 0), # normal
+            'WARNING':  (1, 33), # amarillo
+            'ERROR':    (1, 31), # rojo
+            'OK':       (1, 32), # verde
             'CRITICAL': (1, 101), # negro, fondo rojo
         }
         return (chr(27)+'[%d;%dm') % codes[level] + data + (chr(27)+'[%d;%dm') % codes[None]
@@ -91,7 +91,7 @@ class Aptito:
         print '[' + self.color(status, level) + '] ' + data
 
 if __name__ == '__main__':
-    print 'Aptito 1.3\n'
+    print 'Aptito 1.4\n'
     if not os.environ['USER'] == 'root':
         print _('ERROR: You need root permissions to run APTITO.\nTo do this, run the command: sudo aptito <package>')
         sys.exit(1)

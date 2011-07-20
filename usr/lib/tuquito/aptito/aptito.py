@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 """
- Aptito 1.3
- Copyright (C) 2010
+ Aptito 1.4
+ Copyright (C) 2011
  Author: Mario Colque <mario@tuquito.org.ar>
  Tuquito Team! - www.tuquito.org.ar
 
@@ -19,8 +19,7 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 """
 
-import gtk
-import os, commands, threading, gettext, apt
+import gtk, os, commands, threading, gettext, apt
 from time import sleep
 
 gtk.gdk.threads_init()
