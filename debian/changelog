@@ -1,3 +1,9 @@
+aptito (1.5) natty; urgency=low
+
+  * permissions fixed
+
+ -- Mario Colque <mario@tuquito.org.ar>  Tue, 19 Jul 2011 23:59:20 -0300
+
 aptito (1.4) natty; urgency=low
 
   * review

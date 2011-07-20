@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """
- Aptito 1.4
+ Aptito 1.5
  Copyright (C) 2011
  Author: Mario Colque <mario@tuquito.org.ar>
  Tuquito Team! - www.tuquito.org.ar
@@ -91,7 +91,7 @@ class Aptito:
         print '[' + self.color(status, level) + '] ' + data
 
 if __name__ == '__main__':
-    print 'Aptito 1.4\n'
+    print 'Aptito 1.5\n'
     if not os.environ['USER'] == 'root':
         print _('ERROR: You need root permissions to run APTITO.\nTo do this, run the command: sudo aptito <package>')
         sys.exit(1)

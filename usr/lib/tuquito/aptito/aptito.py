@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """
- Aptito 1.4
+ Aptito 1.5
  Copyright (C) 2011
  Author: Mario Colque <mario@tuquito.org.ar>
  Tuquito Team! - www.tuquito.org.ar
