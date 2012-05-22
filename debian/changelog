@@ -1,3 +1,9 @@
+aptito (1.6) precise; urgency=low
+
+  * Guarani branch
+
+ -- Mario Colque <mario@tuquito.org.ar>  Tue, 22 May 2012 13:52:43 -0300
+
 aptito (1.5) natty; urgency=low
 
   * permissions fixed
